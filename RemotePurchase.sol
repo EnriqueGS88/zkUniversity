@@ -122,3 +122,6 @@ contract Purchase {
     }
 
 }
+
+require( (msg.sender == buyer) || (msg.sender == seller && block.timestamp >= calledConfirmPurchase + 300) )
+if( (msg.sender != buyer) || (msg.sender == seller && block.timestamp <= calledConfirmPurchase + 300) )
