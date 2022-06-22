@@ -33,14 +33,13 @@ contract Purchase {
     }
 
     // / New modifier that lets Seller call confirmPurchase()
-    // / 5 min after Buyer called confirmReceived() will this modifier let act
+    // / Either the Buyer calls the function at any time OR
+    // / Seller calls the function as long as 5 min have passed since Buyer called confirmReceived()
     // / 5 min are measured in Unix as 300 seconds
     modifier fiveMinSeller() {
-        if ( ( msg.sender == seller && block.timestamp <= calledConfirmPurchase + 300 ) )
-            revert FiveMinNotPassedYet();
+        require( (msg.sender == buyer) || (msg.sender == seller && block.timestamp >= calledConfirmPurchase + 300) );
         _;
-    }
-
+   }
     modifier onlySeller() {
         if (msg.sender != seller)
             revert OnlySeller();
@@ -102,6 +101,7 @@ contract Purchase {
         calledConfirmPurchase = block.timestamp;
     }
 
+
     /// New Function that merges both confirmReceived() and refundSeller()
     /// It first checks if the if the Seller is already allowed to call the function
     /// Then it changes the State
@@ -121,7 +121,5 @@ contract Purchase {
         seller.transfer( 3 * value );
     }
 
-}
 
-require( (msg.sender == buyer) || (msg.sender == seller && block.timestamp >= calledConfirmPurchase + 300) )
-if( (msg.sender != buyer) || (msg.sender == seller && block.timestamp <= calledConfirmPurchase + 300) )
+}
