@@ -2,7 +2,7 @@
 
 ## Solidity Contract
 
-- [RemotePurchase.sol Contract](https://github.com/EnriqueGS88/zkUniversity/blob/master/screenshots/6.%20Escrowing%20Contract/RemotePurchase.sol)
+- [RemotePurchase.sol Contract](RemotePurchase.sol)
 
 ## Remix UI Screenshots
 
